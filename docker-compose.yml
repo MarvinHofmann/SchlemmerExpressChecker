@@ -3,7 +3,7 @@ version: "3"
 services:
     frontend:
         build:
-            context: ./ZimmerMaticFrontend
+            context: ./Frontend
             dockerfile: Dockerfile
         ports:
             - "4444:4444"
@@ -11,7 +11,7 @@ services:
 
     backend:
         build:
-            context: ./ZimmerMaticBackend
+            context: ./Backend
             dockerfile: Dockerfile
         ports:
             - "4545:4545"
