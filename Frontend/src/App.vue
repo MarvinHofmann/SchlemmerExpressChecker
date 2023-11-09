@@ -32,7 +32,7 @@ import axios from "axios"
 export default {
   data() {
     return {
-      nextCheck: 10,
+      nextCheck: 120,
       mordChanged: false,
       normChanged: false
     };
@@ -48,7 +48,7 @@ export default {
       setInterval(() => {
         if (this.nextCheck == 0) {
           this.fetchValues();
-          this.nextCheck = 30;
+          this.nextCheck = 120;
         }
         this.nextCheck--;
       }, 1000);
