@@ -27,9 +27,10 @@ let cors = require('cors');
 app.options('*', cors())
 app.use(cors())
 
-const searchText = "Termine 2024 in Kürze verfügbar"
+const searchText = "Tickets in Kürze verfügbar"
 const adresseMord = "https://www.schwaebische-waldbahn.de/sonderfahrten/mord-im-schlemmerexpress"
 const adresseNorm = "https://www.schwaebische-waldbahn.de/sonderfahrten/der-schlemmerexpress"
+let MAILSEND = false
 
 async function fetchMordImSchlemmerExpress() {
     let position;
@@ -46,10 +47,12 @@ async function fetchMordImSchlemmerExpress() {
             }
         });
 
-        if (position != 100390 || foundText == false) {
+        if (position != 100942 || foundText == false) {
             console.log("ALERT Mord im Express");
-            sendMail("marvin@raithweg15.de")
-            sendMail("michihofmann73@web.de")
+            if (!MAILSEND) {
+                sendMail("marvin@raithweg15.de")
+                sendMail("michihofmann73@web.de")
+            }
             change = true
         }
         console.log("Schlemmerexpress (Mord) > pos: " + position + " Gefunden: " + foundText + " Änderung: " + change);
@@ -76,10 +79,12 @@ async function fetchImSchlemmerExpress() {
             }
         });
 
-        if (position != 100248 || foundText == false) {
+        if (position != 100781 || foundText == false) {
             console.log("ALERT normaler Express");
-            sendMail("marvin@raithweg15.de")
-            sendMail("michihofmann73@web.de")
+            if (!MAILSEND) {
+                sendMail("marvin@raithweg15.de")
+                sendMail("michihofmann73@web.de")
+            }
             change = true
         }
         console.log("Schlemmerexpress (Norm) > pos: " + position + " Gefunden: " + foundText + " Änderung: " + change);
@@ -88,14 +93,14 @@ async function fetchImSchlemmerExpress() {
         .catch(function (error) {
             console.log("Erroro fetching" + error);
         });
-    return { type: "Normal" , position: position, foundText: foundText, change: change }
+    return { type: "Normal", position: position, foundText: foundText, change: change }
 }
 
 
 app.get("/checkPages", async function (req, res) {
     let res0 = await fetchMordImSchlemmerExpress()
     let res1 = await fetchImSchlemmerExpress()
-    res.status(200).send({res0, res1})
+    res.status(200).send({ res0, res1 })
 });
 
 
@@ -134,4 +139,5 @@ async function sendMail(mail) {
         subject: "❌ Änderung erkannt - Schlemmerexpress ❌",
         html: htmlToSend,
     });
+    MAILSEND = true;
 }
