@@ -47,7 +47,7 @@ async function fetchMordImSchlemmerExpress() {
             }
         });
 
-        if (position != 101376 || foundText == false) {
+        if (position != 4600 || foundText == false) {
             console.log("ALERT Mord im Express");
             if (!MAILSEND) {
                 sendMail("marvin@raithweg15.de")
@@ -99,8 +99,8 @@ async function fetchImSchlemmerExpress() {
 
 app.get("/checkPages", async function (req, res) {
     let res0 = await fetchMordImSchlemmerExpress()
-    //let res1 = await fetchImSchlemmerExpress()
-    res.status(200).send({ res0 })
+    let res1 = { type: "Normal", position: "1", foundText: false, change: false } //await fetchImSchlemmerExpress()
+    res.status(200).send({ res0, res1 })
 });
 
 
