@@ -15,6 +15,7 @@ app.listen(port, () => {
     //leds.workLight();
     //Rolladen.rolladenUP();
     console.log(`App listening at http://192.168.0.138:${port}`);
+    console.log(process.env.MAIL_USER)
 });
 
 const dotenv = require("dotenv");
@@ -47,7 +48,7 @@ async function fetchMordImSchlemmerExpress() {
             }
         });
 
-        if (position != 4600 || foundText == false) {
+        if (position != 4601 || foundText == false) {
             console.log("ALERT Mord im Express");
             if (!MAILSEND) {
                 sendMail("marvin@raithweg15.de")
