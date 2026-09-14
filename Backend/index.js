@@ -49,7 +49,7 @@ async function fetchMordImSchlemmerExpress() {
         });
 
         if (position != 4600 || foundText == false) {
-            console.log("ALERT Mord im Express");
+            console.log("ALERT Mord im Express", searchText, strongs);
             if (!MAILSEND) {
                 sendMail("marvin@raithweg15.de")
                 //sendMail("michihofmann73@web.de")
