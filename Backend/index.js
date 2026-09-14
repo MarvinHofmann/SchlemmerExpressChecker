@@ -47,6 +47,7 @@ async function fetchMordImSchlemmerExpress() {
                 foundText = true;
             }
         });
+        console.log(searchText,dom, strongs)
 
         if (position != 4600 || foundText == false) {
             console.log("ALERT Mord im Express", searchText,dom, strongs);
