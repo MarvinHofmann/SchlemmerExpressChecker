@@ -41,7 +41,7 @@ async function fetchMordImSchlemmerExpress() {
         position = text.search(searchText);
         console.log(position)
         const dom = new JSDOM(response.data)
-        let strongs = dom.window.document.querySelectorAll("strong");
+        let strongs = dom.window.document.querySelectorAll("span");
         strongs.forEach((strong) => {
             if (strong.innerHTML == searchText) {
                 foundText = true;
@@ -49,7 +49,7 @@ async function fetchMordImSchlemmerExpress() {
         });
 
         if (position != 4600 || foundText == false) {
-            console.log("ALERT Mord im Express", searchText, strongs);
+            console.log("ALERT Mord im Express", searchText,dom, strongs);
             if (!MAILSEND) {
                 sendMail("marvin@raithweg15.de")
                 //sendMail("michihofmann73@web.de")
