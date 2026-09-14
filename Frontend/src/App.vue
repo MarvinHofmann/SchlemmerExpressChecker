@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     async fetchValues() {
-      let res = await axios.get("192.168.0.138:4545").then((response) => response.data)
+      let res = await axios.get("192.168.0.138:4545/checkPages").then((response) => response.data)
       console.log(res);
       this.mordChanged = res.res0.change;
     },

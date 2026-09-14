@@ -48,7 +48,7 @@ async function fetchMordImSchlemmerExpress() {
             }
         });
 
-        if (position != 4601 || foundText == false) {
+        if (position != 4600 || foundText == false) {
             console.log("ALERT Mord im Express");
             if (!MAILSEND) {
                 sendMail("marvin@raithweg15.de")
