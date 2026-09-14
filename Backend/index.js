@@ -43,7 +43,6 @@ async function fetchMordImSchlemmerExpress() {
         const dom = new JSDOM(response.data)
         let strongs = dom.window.document.querySelectorAll("span");
         strongs.forEach((strong) => {
-            console.log(strong.innerHTML)
             if (strong.innerHTML == searchText) {
                 foundText = true;
             }
@@ -53,7 +52,7 @@ async function fetchMordImSchlemmerExpress() {
             console.log("ALERT Mord im Express", searchText,dom, strongs);
             if (!MAILSEND) {
                 sendMail("marvin@raithweg15.de")
-                //sendMail("michihofmann73@web.de")
+                sendMail("michihofmann73@web.de")
             }
             change = true
         }
