@@ -100,7 +100,7 @@ async function fetchImSchlemmerExpress() {
 app.get("/checkPages", async function (req, res) {
     let res0 = await fetchMordImSchlemmerExpress()
     //let res1 = await fetchImSchlemmerExpress()
-    res.status(200).send({ res0, null })
+    res.status(200).send({ res0 })
 });
 
 
