@@ -43,11 +43,11 @@ async function fetchMordImSchlemmerExpress() {
         const dom = new JSDOM(response.data)
         let strongs = dom.window.document.querySelectorAll("span");
         strongs.forEach((strong) => {
+            console.log(strong.innerHTML)
             if (strong.innerHTML == searchText) {
                 foundText = true;
             }
         });
-        console.log(searchText,dom, strongs)
 
         if (position != 4600 || foundText == false) {
             console.log("ALERT Mord im Express", searchText,dom, strongs);
