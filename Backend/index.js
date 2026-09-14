@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.listen(port, () => {
     //leds.workLight();
     //Rolladen.rolladenUP();
-    console.log(`App listening at http://ZimmerMatic:${port}`);
+    console.log(`App listening at http://192.168.0.138:${port}`);
 });
 
 const dotenv = require("dotenv");
@@ -27,18 +27,18 @@ let cors = require('cors');
 app.options('*', cors())
 app.use(cors())
 
-const searchText = "Tickets in Kürze verfügbar"
-const adresseMord = "https://www.schwaebische-waldbahn.de/sonderfahrten/mord-im-schlemmerexpress"
-const adresseNorm = "https://www.schwaebische-waldbahn.de/sonderfahrten/der-schlemmerexpress"
+const searchText = "Tickets folgen in Kürze"
+const adresseLuna = "https://lumagica.com/de/standorte/meran#intro"
 let MAILSEND = false
 
 async function fetchMordImSchlemmerExpress() {
     let position;
     let foundText = false;
     let change = false;
-    await axios.get(adresseMord, { responseType: 'document' }).then(function (response) {
+    await axios.get(adresseLuna, { responseType: 'document' }).then(function (response) {
         let text = response.data;
         position = text.search(searchText);
+        console.log(position)
         const dom = new JSDOM(response.data)
         let strongs = dom.window.document.querySelectorAll("strong");
         strongs.forEach((strong) => {
@@ -51,11 +51,11 @@ async function fetchMordImSchlemmerExpress() {
             console.log("ALERT Mord im Express");
             if (!MAILSEND) {
                 sendMail("marvin@raithweg15.de")
-                sendMail("michihofmann73@web.de")
+                //sendMail("michihofmann73@web.de")
             }
             change = true
         }
-        console.log("Schlemmerexpress (Mord) > pos: " + position + " Gefunden: " + foundText + " Änderung: " + change);
+        console.log("Lunamagica > pos: " + position + " Gefunden: " + foundText + " Änderung: " + change);
 
     })
         .catch(function (error) {
@@ -99,8 +99,8 @@ async function fetchImSchlemmerExpress() {
 
 app.get("/checkPages", async function (req, res) {
     let res0 = await fetchMordImSchlemmerExpress()
-    let res1 = await fetchImSchlemmerExpress()
-    res.status(200).send({ res0, res1 })
+    //let res1 = await fetchImSchlemmerExpress()
+    res.status(200).send({ res0, null })
 });
 
 
@@ -109,7 +109,7 @@ const CronJob = require('cron').CronJob;
 //Begonnen am 1.4.2022 4:30
 const job = new CronJob('*/1 * * * *', function () {
     console.log('JOB DONE');
-    fetchImSchlemmerExpress()
+    //fetchImSchlemmerExpress()
     fetchMordImSchlemmerExpress()
 });
 job.start();
@@ -132,11 +132,11 @@ const transporter = nodemailer.createTransport({
 
 async function sendMail(mail) {
     console.log("sendMail to: " + mail);
-    const htmlToSend = '<strong>Änderungen erkannt<strong>\n<a href="https://www.schwaebische-waldbahn.de/sonderfahrten/mord-im-schlemmerexpress">Mord Express</a>\n<a href="https://www.schwaebische-waldbahn.de/sonderfahrten/der-schlemmerexpress">Normal</a>'
+    const htmlToSend = '<strong>Änderungen erkannt</strong>\n<a href="https://lumagica.com/de/standorte/meran#intro">LUMAGICA Meran</a>\n'
     transporter.sendMail({
-        from: '"Schlemmer Express checker" <aramrule.checker@gmx.de>',
+        from: '"LUMAGICA checker" <aramrule.checker@gmx.de>',
         to: mail,
-        subject: "❌ Änderung erkannt - Schlemmerexpress ❌",
+        subject: "❌ Änderung erkannt - Meran ❌",
         html: htmlToSend,
     });
     MAILSEND = true;
